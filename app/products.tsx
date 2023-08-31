@@ -117,6 +117,7 @@ export const ProductFullScreen = (props: ProductType) => {
                   <img
                     src={img}
                     alt={props.name + "-" + index}
+                    key={props.name + "-image-" + index}
                     loading="lazy"
                     className="w-full rounded-md"
                   />
