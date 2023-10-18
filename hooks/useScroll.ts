@@ -1,4 +1,3 @@
-"use client"
 import { useLayoutEffect, useState } from "react";
 
 export const useScrollPositions = () => {
