@@ -1,7 +1,7 @@
+"use client"
 import { createContext, useContext, useEffect, useState } from "react";
-import { ProductType } from "../types";
+import { ProductType } from "@/lib/types";
 import { useProduct } from "./productProvider";
-import Product from "../products";
 const BagContext = createContext({
   bagProducts: [] as ProductType[],
   addProductToBag: (id:string) => {},

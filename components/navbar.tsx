@@ -1,14 +1,14 @@
 "use client";
 import { useState } from "react";
-import Logo from "./logo";
-import { useProduct } from "./provider/productProvider";
+import Logo from "../app/logo";
 import { useRouter } from "next/navigation";
-import { useBag } from "./provider/bagProvider";
+import { useBag } from "../app/provider/bagProvider";
+import { useToggle } from "@/hooks/useToggle";
 
 //to do
 //kill scroll on open
 // fix nav bar after scroll
-// button to go up 
+// button to go up
 const navigationData = [
   {
     name: "item1",
@@ -42,13 +42,13 @@ const Search = () => {
     <div className="flex gap-2">
       <input
         name="main-search"
-        className="px-2 rounded-md text-black"
+        className="px-2 text-black rounded-md"
         value={searchString}
         onChange={(e) => setSearchString(e.target.value)}
         placeholder="search..."
       />
       <button
-        className="rounded-md bg-sky-300/40 hover:bg-sky-300/80 px-3 py-2"
+        className="px-3 py-2 rounded-md bg-sky-300/40 hover:bg-sky-300/80"
         onClick={findProduct}
       >
         Search
@@ -56,51 +56,49 @@ const Search = () => {
     </div>
   );
 };
-const NoCartItem = ()=>{
-  return(
-    <p>no items in cart </p>
-  )
-}
+const NoCartItem = () => {
+  return <p>no items in cart </p>;
+};
 const Navbar = () => {
-  const [isNavOpen, setIsNavOpen] = useState(false);
+  const [isNavOpen, toggleNavOpen] = useToggle(false);
+  const [isCartOpen, toggleCartOpen] = useToggle(false);
   const toggleIsNavOpen = () => {
-    setIsCartOpen(false);
-    setIsNavOpen((p) => !p);
+    toggleCartOpen(false);
+    toggleNavOpen();
   };
-  const [isCartOpen, setIsCartOpen] = useState(false);
   const toggleIsCartOpen = () => {
-    setIsNavOpen(false);
-    setIsCartOpen((p) => !p);
+    toggleNavOpen(false);
+    toggleCartOpen();
   };
-  const { bagProducts,removeProductFromBag,bagSize } = useBag();
+  const { bagProducts, removeProductFromBag, bagSize } = useBag();
 
   return (
     <nav className="z-[88]">
       <div className="flex flex-col justify-center">
-        <div className="h-24 text-center text-2xl py-8">
+        <div className="h-24 py-8 text-2xl text-center">
           <Logo />
         </div>
-        <div className="flex justify-around">
-          <div onClick={toggleIsNavOpen} className="">
+        <div className="w-4/5 mx-auto">
+          <div className="flex items-center justify-between gap-4 flex-nowrap">
+            <div onClick={toggleIsNavOpen} className="flex items-center"></div>
             {isNavOpen ? "close" : "Open"}
-          </div>
-          <div>
-            <Search />
-          </div>
-          <div className="flex items-center" onClick={toggleIsCartOpen}>
-            {" "}
-            bag{" "}
-            <div className="rounded-full bg-red-700 w-6 h-6 text-center text-sm scale-75 mb-2">
-              {bagSize}
+            <div className="flex items-center" onClick={toggleIsCartOpen}>
+              <span>bag</span>
+              <div className="w-6 h-6 mb-2 text-sm text-center scale-75 bg-red-700 rounded-full">
+                {bagSize}
+              </div>
             </div>
           </div>
+        </div>
+        <div className="flex justify-center">
+          <Search />
         </div>
       </div>
       {isNavOpen && (
         <div className="fixed flex flex-start top-0 left-0 w-screen h-screen bg-black/60 z-[88]">
           <span
             onClick={toggleIsNavOpen}
-            className="cursor-pointer text-4xl px-2 order-2"
+            className="order-2 px-2 text-4xl cursor-pointer"
           >
             X
           </span>
@@ -116,17 +114,20 @@ const Navbar = () => {
         <div className="fixed flex justify-end top-0 left-0 w-screen h-screen bg-black/60 z-[88]">
           <span
             onClick={toggleIsCartOpen}
-            className="cursor-pointer text-4xl px-2 order-1"
+            className="order-1 px-2 text-4xl cursor-pointer"
           >
             X
           </span>
           <div className="order-2 p-4 h-screen gap-2 flex flex-col bg-sky-600 w-1/3 min-w-[250px]">
             {bagProducts.map((product) => (
-              <div key={product.id} className="rounded-md flex justify-between h-20 gap-2">
+              <div
+                key={product.id}
+                className="flex justify-between h-20 gap-2 rounded-md"
+              >
                 <div>
                   <img
                     src={product.mainImageUrl}
-                    className="rounded-md h-full"
+                    className="h-full rounded-md"
                   />
                 </div>
                 <div>
@@ -134,16 +135,24 @@ const Navbar = () => {
                   <p className="font-extrabold">N{product.priceNGN}</p>
                 </div>
                 <div>
-                  <button className="rounded-md px-3 py-2 bg-red-700/50 hover:bg-red-700" onClick={()=>removeProductFromBag(product.id)}>Delete </button>
+                  <button
+                    className="px-3 py-2 rounded-md bg-red-700/50 hover:bg-red-700"
+                    onClick={() => removeProductFromBag(product.id)}
+                  >
+                    Delete{" "}
+                  </button>
                 </div>
               </div>
             ))}
-            {
-              bagSize > 0 ? (  <div>
-                <button className="rounded-md px-3 py-2 bg-slate-950/30 hover:bg-slate-950">CheckOut</button>
-              </div>) : (<NoCartItem/>)
-            }
-          
+            {bagSize > 0 ? (
+              <div>
+                <button className="px-3 py-2 rounded-md bg-slate-950/30 hover:bg-slate-950">
+                  CheckOut
+                </button>
+              </div>
+            ) : (
+              <NoCartItem />
+            )}
           </div>
         </div>
       )}

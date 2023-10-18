@@ -1,6 +1,7 @@
+"use client"
 import { createContext, useContext, useEffect, useState } from "react";
-import { ProductType } from "../types";
-import { ProductFullScreen } from "../products";
+import { ProductType } from "@/lib/types";
+import { ProductFullScreen } from "@/components/products";
 const ProductContext = createContext<{
   allProducts: ProductType[];
   activeProducts: ProductType[];

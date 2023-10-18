@@ -1,9 +1,8 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
-import Navbar from './navbar'
+import Navbar from '@/components/navbar'
 import Provider from './provider/provider'
 
-const inter = Inter({ subsets: ['latin'] })
 
 //go to top of screen button
 export const metadata = {
@@ -21,8 +20,8 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Provider>
-        <Navbar/>
-        {children}
+          <Navbar/>
+          {children}
         </Provider>
       </body>
     </html>
