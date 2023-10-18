@@ -1,4 +1,5 @@
 import { default as NukaCarousel } from "nuka-carousel";
+import { IoArrowBackOutline, IoArrowForwardOutline } from "react-icons/io5";
 
 const Carousel = (props: { children: React.ReactNode }) => {
   return (
@@ -9,18 +10,18 @@ const Carousel = (props: { children: React.ReactNode }) => {
       wrapAround
       renderCenterLeftControls={({ previousSlide }) => (
         <button
-          className="rounded-full bg-sky-300/40 hover:bg-sky-300/80 px-3 py-2"
+          className="block px-3 py-2 mx-3 rounded-full bg-sky-300/40 hover:bg-sky-300/80"
           onClick={previousSlide}
         >
-          prev
+          <IoArrowBackOutline size={24}/>
         </button>
       )}
       renderCenterRightControls={({ nextSlide }) => (
         <button
-          className="rounded-full bg-sky-300/40 hover:bg-sky-300/80 px-3 py-2"
+          className="px-3 py-2 mx-3 rounded-full bg-sky-300/40 hover:bg-sky-300/80"
           onClick={nextSlide}
         >
-          next
+          <IoArrowForwardOutline size={24}/>
         </button>
       )}
     >

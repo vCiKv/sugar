@@ -1,10 +1,11 @@
-"use client"
+"use client";
 import { ProductType } from "@/lib/types";
 import { useProduct } from "../app/provider/productProvider";
 import Carousel from "./carousel";
 import { useBag } from "../app/provider/bagProvider";
 import { useState } from "react";
 import { SelectColor } from "./selectColor";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 
 const AddToBag = (props: { price: number; id: string }) => {
   const { addProductToBag } = useBag();
@@ -51,7 +52,7 @@ const Product = (props: ProductType) => {
   const { createProductFullScreen } = useProduct();
   return (
     <div className="flex flex-col w-full rounded-md">
-      <div className="w-full h-full 16">
+      <div className="">
         <img
           src={props.mainImageUrl}
           alt={props.name}
@@ -66,7 +67,7 @@ const Product = (props: ProductType) => {
           collection={props.collection}
         />
         <ProductDetails detail={props.detail} />
-        <SelectColor set={()=>null} active={""}/>     
+        <SelectColor set={() => null} active={""} />
         <button
           className="font-bold underline underline-offset-2"
           onClick={() => {
@@ -80,39 +81,33 @@ const Product = (props: ProductType) => {
     </div>
   );
 };
-const ProductList = ()=>{
-  const {activeProducts} = useProduct()
-  return(
+const ProductList = () => {
+  const { activeProducts } = useProduct();
+  return (
     <div className="grid justify-center grid-cols-1 gap-4 md:grid-cols-3">
-      {activeProducts.length < 0 ? "loading..." : activeProducts.map((product) => (
-        <Product {...product} key={product.id}/>
-      ))}
+      {activeProducts.length < 0
+        ? "loading..."
+        : activeProducts.map((product) => (
+            <Product {...product} key={product.id} />
+          ))}
     </div>
-  )
-}
-export const NoProducts = ()=>{
-  return(
+  );
+};
+export const NoProducts = () => {
+  return (
     <div>
       <h2>No Products Found</h2>
     </div>
-  )
-}
+  );
+};
 //to do
 // no scoll on full open
 export const ProductFullScreen = (props: ProductType) => {
   const { closeProductFullScreen } = useProduct();
-  const [productColor,setProductColor] = useState("") 
+  const [productColor, setProductColor] = useState("");
   return (
-    <div className="fixed top-0 left-0 z-10 w-screen h-screen overflow-hidden bg-black/60">
-      <div className="h-[10%]">
-        <span
-          className="fixed right-0 w-8 h-8 my-4 text-center bg-red-400 rounded-full"
-          onClick={closeProductFullScreen}
-        >
-          X
-        </span>
-      </div>
-      <div className="h-[90%] rounded-t-md bg-black flex justify-center ">
+    <div className="fixed bottom-0 left-0 z-10 w-screen h-screen overflow-hidden bg-black/60">
+      <div className="absolute bottom-0 max-h-[90%] rounded-t-md bg-black flex justify-center overflow-y-auto">
         <div className="flex flex-col w-full h-full overflow-y-auto rounded-md flex-nowrap md:flex-row">
           <div className="w-full h-full md:w-2/5">
             <div>
@@ -136,13 +131,19 @@ export const ProductFullScreen = (props: ProductType) => {
             </div>
           </div>
           <div className="w-full h-full px-6 pt-6 pb-8 md:w-3/5">
+            <span
+              className="absolute right-0 w-8 h-8 mx-3 my-4 text-center bg-red-400 rounded-full"
+              onClick={closeProductFullScreen}
+            >
+              <IoIosCloseCircleOutline size={32} />
+            </span>
             <ProductTitle
               category={props.category}
               name={props.name}
               collection={props.collection}
             />
             <ProductDetails detail={props.detail} />
-            <SelectColor set={setProductColor} active={productColor}/>
+            <SelectColor set={setProductColor} active={productColor} />
             <AddToBag price={props.priceNGN} id={props.id} />
           </div>
         </div>

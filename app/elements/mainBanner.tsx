@@ -1,5 +1,5 @@
 "use client"
-import Carousel from "nuka-carousel";
+import Carousel from "@/components/carousel";
 
 const MainBanner = () => {
   const SliderImage = (props: { color: string }) => {

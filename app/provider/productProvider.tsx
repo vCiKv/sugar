@@ -65,7 +65,7 @@ export function ProductContextProvider({
   };
   useEffect(() => {
     const data: ProductType[] = require("../data.json");
-    setAllProducts(data);
+    setAllProducts(data.slice(0,21));
   },[]);
   useEffect(() => {
     if (allProducts.length > 0) {

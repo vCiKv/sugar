@@ -4,6 +4,9 @@ import Logo from "../app/logo";
 import { useRouter } from "next/navigation";
 import { useBag } from "../app/provider/bagProvider";
 import { useToggle } from "@/hooks/useToggle";
+import { IoBag, IoMenuOutline } from "react-icons/io5";
+import { IoIosCloseCircleOutline } from "react-icons/io";
+
 
 //to do
 //kill scroll on open
@@ -78,12 +81,13 @@ const Navbar = () => {
         <div className="h-24 py-8 text-2xl text-center">
           <Logo />
         </div>
-        <div className="w-4/5 mx-auto">
-          <div className="flex items-center justify-between gap-4 flex-nowrap">
-            <div onClick={toggleIsNavOpen} className="flex items-center"></div>
-            {isNavOpen ? "close" : "Open"}
+        <div className="w-4/5 h-12 mx-auto">
+          <div className="flex items-center gap-4 justify-evenly flex-nowrap">
+            <div onClick={toggleIsNavOpen} className="flex items-center">
+              {isNavOpen ? <IoIosCloseCircleOutline size={32}/> : <IoMenuOutline size={32}/>}
+            </div>
             <div className="flex items-center" onClick={toggleIsCartOpen}>
-              <span>bag</span>
+              <span><IoBag size={32}/></span>
               <div className="w-6 h-6 mb-2 text-sm text-center scale-75 bg-red-700 rounded-full">
                 {bagSize}
               </div>
@@ -100,7 +104,7 @@ const Navbar = () => {
             onClick={toggleIsNavOpen}
             className="order-2 px-2 text-4xl cursor-pointer"
           >
-            X
+           <IoIosCloseCircleOutline/>
           </span>
           <div className="p-4 h-screen flex flex-col justify-evenly bg-sky-600 w-1/3 min-w-[250px]">
             <Logo />
@@ -116,7 +120,7 @@ const Navbar = () => {
             onClick={toggleIsCartOpen}
             className="order-1 px-2 text-4xl cursor-pointer"
           >
-            X
+            <IoIosCloseCircleOutline/>
           </span>
           <div className="order-2 p-4 h-screen gap-2 flex flex-col bg-sky-600 w-1/3 min-w-[250px]">
             {bagProducts.map((product) => (
